@@ -7,7 +7,7 @@ compatibility_date = "2026-11-22"
 # وحط الـ id اللي يطلعلك تحت
 [[kv_namespaces]]
 binding = "MUJEEB_KV"
-id = "PUT_KV_NAMESPACE_ID_HERE"
+id = "50c936c199344633808b58f2c75a971d"
 
 # الأسرار (متتكتبش هنا — تتحط بالأوامر):
 #   npx wrangler secret put VERIFY_TOKEN    (كلمة سر من اختيارك للـ webhook)

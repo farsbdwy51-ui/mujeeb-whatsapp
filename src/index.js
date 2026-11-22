@@ -10,7 +10,7 @@
    فبنثبّت الكتالوج على globalThis قبل النداء ومفيش await بينهم.
    ============================================================ */
 
-import "./engine.js";
+import "./engine.cjs";
 import { DEFAULT_CATALOG } from "./stores/default.js";
 
 const GRAPH_VERSION = "v22.0";

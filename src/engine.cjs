@@ -12,7 +12,7 @@
     {},
     {
       get: (_t, k) => {
-        const cat = root.CATALOG || (typeof require !== "undefined" ? require("./catalog.js") : null);
+        const cat = root.CATALOG || (typeof require !== "undefined" ? require([".","catalog.js"].join("/")) : null);
         return cat ? cat[k] : undefined;
       },
     }
