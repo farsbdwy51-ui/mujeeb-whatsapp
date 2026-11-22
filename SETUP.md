@@ -69,3 +69,19 @@ wrangler deploy
 - منع تكرار الرسايل: كل message id يتسجل في KV لمدة ٢٤ ساعة.
 - الجلسات في KV لمدة ٧ أيام — مسار تتبع الطلب يفضل شغال حتى لو العميل رجع بعد يومين.
 - الردود بأزرار واتساب التفاعلية لما يكون في ٣ اختيارات أو أقل.
+
+## 360dialog Sandbox (optional demo transport)
+
+The demo callback is `/360dialog?token=<D360_WEBHOOK_TOKEN>`.
+Configure these Worker secrets, never commit their values:
+
+- `D360_API_KEY`: sandbox key issued by 360dialog after the user's START message.
+- `D360_WEBHOOK_TOKEN`: random callback authentication value.
+- `D360_RECIPIENT`: the single phone number (digits only) or BSUID tied to that key.
+
+Official setup and limits: https://docs.360dialog.com/docs/get-started/sandbox
+The sandbox has a total allowance of 25 messaging API requests, including rejected requests.
+Only the registered recipient can receive replies. Responses are combined into one text
+message per turn, with numbered choices. Incoming callback IDs are deduplicated in KV.
+Demo orders are saved separately and are not forwarded to a real shop.
+Run `node test/sandbox.test.js` for transport checks. The Meta `/webhook` route is unchanged.
