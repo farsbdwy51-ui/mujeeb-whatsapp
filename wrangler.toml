@@ -1,0 +1,18 @@
+name = "mujeeb-whatsapp"
+main = "src/index.js"
+compatibility_date = "2026-11-22"
+
+# أنشئ الـ namespace بالأمر:
+#   npx wrangler kv namespace create MUJEEB_KV
+# وحط الـ id اللي يطلعلك تحت
+[[kv_namespaces]]
+binding = "MUJEEB_KV"
+id = "PUT_KV_NAMESPACE_ID_HERE"
+
+# الأسرار (متتكتبش هنا — تتحط بالأوامر):
+#   npx wrangler secret put VERIFY_TOKEN    (كلمة سر من اختيارك للـ webhook)
+#   npx wrangler secret put WHATSAPP_TOKEN  (توكن Cloud API من ميتا)
+
+# كتالوج محل معين: حط JSON الكتالوج في KV بالمفتاح:
+#   store:<phone_number_id>
+# مثال: npx wrangler kv key put --binding MUJEEB_KV "store:123456789" --path catalog.json
