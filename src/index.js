@@ -12,6 +12,7 @@
 
 import "./engine.cjs";
 import { DEFAULT_CATALOG } from "./stores/default.js";
+import { handleSandbox } from "./sandbox.js";
 
 const GRAPH_VERSION = "v22.0";
 
@@ -146,6 +147,7 @@ async function handleMessage(env, phoneNumberId, msg, results) {
 /* ---------- الـ Worker ---------- */
 async function handleRequest(request, env, ctx) {
   const url = new URL(request.url);
+  if (url.pathname === "/360dialog") return handleSandbox(request, env, ctx);
 
   if (url.pathname !== "/webhook") {
     return new Response("مجيب واتساب Worker — شغال ✅", { status: 200 });
@@ -177,10 +179,17 @@ async function handleRequest(request, env, ctx) {
     for (const change of entry.changes || []) {
       const value = change.value || {};
       const phoneNumberId = value.metadata && value.metadata.phone_number_id;
+      for (const st of value.statuses || []) {
+        console.log("STATUS", JSON.stringify({id: st.id, status: st.status, errors: st.errors || null}));
+      }
       for (const msg of value.messages || []) {
         if (!phoneNumberId) continue;
+        console.log("INBOUND", JSON.stringify({from: msg.from, type: msg.type, id: msg.id}));
         jobs.push(
-          handleMessage(env, phoneNumberId, msg, results).catch((e) => {
+          handleMessage(env, phoneNumberId, msg, results).then(() => {
+            console.log("HANDLED", JSON.stringify(results.slice(-3)));
+          }).catch((e) => {
+            console.log("HANDLE_ERROR", String(e).slice(0, 300));
             results.push({ error: String(e).slice(0, 200) });
           })
         );
